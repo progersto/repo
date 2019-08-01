@@ -1,27 +1,20 @@
 package com.betkey.repository
 
 import com.betkey.data.PreferencesManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.*
+import com.betkey.network.models.Agent
+import com.betkey.network.models.Wallet
+import com.betkey.utils.SingleLiveEvent
 
 class ModelRepository(
     private val preffsManager: PreferencesManager
 ) {
 
-    private fun initCategoryList(): ArrayList<String> {
-        val listCategory: ArrayList<String> = ArrayList()
-        listCategory.add( "Столы")
+    val agent = SingleLiveEvent<Agent>().apply { value = null }
+    val wallets = SingleLiveEvent<MutableList<Wallet>>().apply { value = null }
 
-        return listCategory
-    }
 
-    suspend fun initDB() {
-        withContext(Dispatchers.IO) {
-            val listCategory = initCategoryList()
-            preffsManager.fistInit(true)
-        }
-    }
+
+
 
 }
 

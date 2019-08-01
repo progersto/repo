@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName
 
 data class Wallet(
     @SerializedName("_id")
-    var id: String? = null,
+    var id: String = "",
 
     @SerializedName("short_id")
-    var shortId: String? = null,
+    var shortId: String = "",
 
     @SerializedName("type")
-    var type: Int? = null,
+    var type: Int = 0,
 
     @SerializedName("status")
-    var status: Int? = null,
+    var status: Int = 0,
 
     @SerializedName("currency")
-    var currency: String? = null,
+    var currency: String = "",
 
     @SerializedName("balance")
-    var balance: String? = null,
+    var balance: Double = 0.0,
 
     @SerializedName("is_locked")
-    var isLocked: Boolean? = null
+    var isLocked: Boolean = false
 )

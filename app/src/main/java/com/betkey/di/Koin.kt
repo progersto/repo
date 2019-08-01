@@ -29,16 +29,9 @@ private val networkModule = module {
             .client(OkHttpClient.Builder()
                 .addInterceptor {
                     it.proceed(
-                        it.request()
-                            .newBuilder()
-                            .url(
-                                it.request()
-                                    .url()
-                                    .newBuilder()
-                                    .addQueryParameter("apikey", API_KEY)
-                                    .build()
-                            )
-                            .build()
+                        it.request().newBuilder().url(
+                            it.request().url().newBuilder().addQueryParameter("apikey", API_KEY).build()
+                        ).build()
                     )
                 }
                 .build())

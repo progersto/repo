@@ -1,25 +1,38 @@
 package com.betkey.network
 
-import com.betkey.network.models.AuthenticateAgent
-import com.betkey.utils.API_KEY
-import com.google.gson.annotations.SerializedName
+import com.betkey.network.models.*
 import io.reactivex.Single
-import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiInterface {
 
     @FormUrlEncoded
     @POST("agents/authenticate")
-    fun login(@Field("agent[username]") userName: String, @Field("agent[password]") password: String): Single<AuthenticateAgent>
+    fun authenticateAgent(@Field("agent[username]") userName: String, @Field("agent[password]") password: String): Single<AuthenticateAgent>
 
-    data class ApiLoginBody(
+    @FormUrlEncoded
+    @POST("agents/authenticate/token")
+    fun generateAgentToken(
+        @Field("agent[id]")
+        agentId: String,
 
-        @SerializedName("agent[username]")
-        val username: String,
+        @Field("agent[agent_id]")
+        agent_id: Int,
 
-        @SerializedName("agent[password]")
-        val password: String)
+        @Field("agent[username]")
+        userName: String
+    ): Single<TokenObject>
 
+    @FormUrlEncoded
+    @POST("agents/logout")
+    fun agentLogout(@Header("X-AUTH-TOKEN") token: String): Single<MStatus>
+
+    @FormUrlEncoded
+    @POST("agents/info")
+    fun getAgentInfo(@Header("X-AUTH-TOKEN") token: String): Single<AgentRestObject>
+
+    @FormUrlEncoded
+    @POST("agents/wallets")
+    fun getAgentWallets(@Header("X-AUTH-TOKEN") token: String): Single<Wallets>
 
 }

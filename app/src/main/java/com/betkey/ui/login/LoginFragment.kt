@@ -1,15 +1,18 @@
 package com.betkey.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.betkey.R
 import com.betkey.base.BaseFragment
 import com.betkey.ui.MainViewModel
+import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.concurrent.TimeUnit
+
 
 class LoginFragment : BaseFragment() {
 
@@ -27,7 +30,7 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(com.betkey.R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,10 +39,13 @@ class LoginFragment : BaseFragment() {
         activity!!.include_toolbar.visibility = View.GONE
         login_username.requestFocus()
 
-        login_btn.setOnClickListener {
-            subscribe(viewModel.login("test2", "12345"), {
-
-            })
-        }
+        compositeDisposable.add(login_btn.clicks()
+            .throttleLatest(1, TimeUnit.SECONDS)
+            .subscribe {
+                subscribe(viewModel.login("test2", "12345"), {
+                    Log.d("", "")
+                })
+            }
+        )
     }
 }

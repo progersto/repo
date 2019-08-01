@@ -3,24 +3,15 @@ package com.betkey.network.models
 import com.google.gson.annotations.SerializedName
 
 data class AuthenticateAgent(
-    @SerializedName("status")
-    var status: Boolean? = null,
-
-    @SerializedName("message")
-    var message: String? = null,
-
-    @SerializedName("errors")
-    var errors: List<Any>? = null,
-
     @SerializedName("token")
-    var token: String? = null,
+    var token: String = "",
 
     @SerializedName("token_expires")
-    var tokenExpires: String? = null,
+    var tokenExpires: Long = 0,
 
     @SerializedName("agent")
-    var agent: Agent? = null,
+    var agent: AgentRestObject? = null,
 
     @SerializedName("wallets")
     var wallets: List<Wallet>? = null
-)
+) : MStatus()

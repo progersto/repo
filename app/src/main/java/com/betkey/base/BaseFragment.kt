@@ -1,5 +1,6 @@
 package com.betkey.base
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,13 +18,24 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseFragment : Fragment() {
 
+    private lateinit var baseActivity: BaseActivity
     protected val myLifecycleOwner = MyLifecycleOwner()
-    private val compositeDisposable = CompositeDisposable()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        this.baseActivity = context as BaseActivity
+    }
+
+    override fun onStart() {
+        super.onStart()
+        myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
 
     override fun onResume() {
@@ -36,9 +48,23 @@ abstract class BaseFragment : Fragment() {
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     }
 
+    override fun onStop() {
+        super.onStop()
+        myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         myLifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        compositeDisposable.dispose()
+    }
+
+    fun showLoading() {
+        baseActivity.showLoading()
+    }
+
+    fun hideLoading() {
+        baseActivity.hideLoading()
     }
 
     fun popBackStack() {
@@ -95,19 +121,27 @@ abstract class BaseFragment : Fragment() {
     open fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {}
 
     fun <T> subscribe(single: Single<T>, success: (T) -> Unit, error: ((Throwable) -> Unit)? = null) {
-        compositeDisposable.add(single.observeOn(AndroidSchedulers.mainThread()).subscribe(success,
-            {
+        showLoading()
+        compositeDisposable.add(
+            single.observeOn(AndroidSchedulers.mainThread()).subscribe({
+                hideLoading()
+            }, {
+                hideLoading()
                 error?.invoke(it)
                 Log.d("", "")
-            }))
+            })
+        )
     }
 
     fun subscribe(single: Completable, success: () -> Unit, error: ((Throwable) -> Unit)? = null) {
-        compositeDisposable.add(single.observeOn(AndroidSchedulers.mainThread()).subscribe(success,
-            {
-                error?.invoke(it)
-                Log.d("", "")
-            }))
+        showLoading()
+        compositeDisposable.add(single.observeOn(AndroidSchedulers.mainThread()).subscribe({
+            hideLoading()
+        }, {
+            hideLoading()
+            error?.invoke(it)
+            Log.d("", "")
+        }))
     }
 }
 
