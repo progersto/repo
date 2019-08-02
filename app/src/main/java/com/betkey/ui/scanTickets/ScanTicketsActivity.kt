@@ -1,12 +1,26 @@
-package com.betkey.ui.login
+package com.betkey.ui.scanTickets
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.betkey.R
 import com.betkey.base.BaseActivity
 import com.betkey.ui.MainViewModel
+import com.betkey.ui.login.LoginOkFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginActivity : BaseActivity() {
+class ScanTicketsActivity  : BaseActivity() {
+
+    companion object {
+        private const val SELECTED_ID = "id_selected"
+
+        fun start(activity: Activity) {
+            val intent = Intent(activity, ScanTicketsActivity::class.java).apply {
+                //                putExtra(SELECTED_ID, idSelected)
+            }
+            activity.startActivity(intent)
+        }
+    }
 
     private val viewModel by viewModel<MainViewModel>()
 
@@ -14,7 +28,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_for_activity)
 
-        showFragment(LoginFragment.newInstance(), R.id.login_container, LoginFragment.TAG)
+        showFragment(ScanFragment.newInstance(), R.id.login_container, ScanFragment.TAG)
     }
 
     override fun onBackPressed() {

@@ -23,7 +23,6 @@ interface ApiInterface {
         userName: String
     ): Single<TokenObject>
 
-    @FormUrlEncoded
     @POST("agents/logout")
     fun agentLogout(@Header("X-AUTH-TOKEN") token: String): Single<MStatus>
 

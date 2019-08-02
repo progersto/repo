@@ -1,10 +1,22 @@
 <resources>
     <string name="app_name">Betkey</string>
 
+    <string name="no_permission">Permissions not granted</string>
+
     <string name="login_title">Betkey agent pos</string>
     <string name="login_username_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="login_btn">Login</string>
+
+    <string name="login_ok_title">Main menu</string>
+    <string name="login_ok_scan_btn">Scan ticket</string>
+    <string name="login_ok_sport_btn">Sport betting</string>
+    <string name="login_ok_jackpot_btn">Jackpot</string>
+    <string name="login_ok_deposits_btn">Deposits</string>
+    <string name="logout_btn">Logout</string>
+
+    <string name="scan_title">Please scan ticket</string>
+    <string name="scan_back_btn">Back</string>
 
 
 </resources>

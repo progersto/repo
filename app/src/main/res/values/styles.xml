@@ -22,4 +22,16 @@
         <item name="android:background">@drawable/selector_button_green</item>
     </style>
 
+    <style name="ButtonRedTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/selector_button_red</item>
+    </style>
+
+    <style name="ButtonBlueTheme.Theme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/selector_button_blue</item>
+    </style>
+
+    <style name="ButtonYellowTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/selector_button_yellow</item>
+    </style>
+
 </resources>

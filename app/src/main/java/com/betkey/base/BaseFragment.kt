@@ -137,6 +137,7 @@ abstract class BaseFragment : Fragment() {
         showLoading()
         compositeDisposable.add(single.observeOn(AndroidSchedulers.mainThread()).subscribe({
             hideLoading()
+            success.invoke()
         }, {
             hideLoading()
             error?.invoke(it)

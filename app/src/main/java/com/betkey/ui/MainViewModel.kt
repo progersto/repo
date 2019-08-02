@@ -12,4 +12,8 @@ class MainViewModel(private val dataManager: MainDataManager) : BaseViewModel() 
     fun login(userName: String, password: String): Completable {
         return dataManager.login(userName, password)
     }
+
+    fun logout(): Completable {
+        return dataManager.agentLogout()
+    }
 }

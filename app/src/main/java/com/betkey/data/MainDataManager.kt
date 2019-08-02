@@ -1,6 +1,5 @@
 package com.betkey.data
 
-import android.util.Log
 import com.betkey.network.ApiInterface
 import com.betkey.repository.ModelRepository
 import io.reactivex.Completable
@@ -17,18 +16,18 @@ class MainDataManager(
             .flatMapCompletable {
                 Completable.fromRunnable {
                     prefManager.saveToken(it.token)
-                    modelRepository.agent.postWithValue( it.agent!!.agent)
-                    modelRepository.wallets.postWithValue( it.wallets!!.toMutableList())
+                    modelRepository.agent.postWithValue(it.agent!!.agent)
+                    modelRepository.wallets.postWithValue(it.wallets!!.toMutableList())
                 }
             }
     }
 
-    fun agentLogout() {
-        prefManager.getToken()?.also {
-            apiInterface.agentLogout(it)
+    fun agentLogout(): Completable {
+        return prefManager.getToken()!!.let { token ->
+            apiInterface.agentLogout(token)
                 .flatMapCompletable {
                     Completable.fromRunnable {
-                        Log.d("", "")
+                        prefManager.saveToken("")
                     }
                 }
         }
